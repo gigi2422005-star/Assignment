@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grading System</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, button { padding: 8px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h2>Student Grading System</h2>
+    <label>Enter Your Score (0-100):</label>
+    <input type="number" id="score" placeholder="e.g. 85">
+    <button onclick="checkGrade()">Check Grade</button>
+    <p id="result"></p>
+    <br>
+    <button onclick="history.back()">Back</button>
+
+    <script>
+        function checkGrade() {
+            let score = document.getElementById("score").value;
+            
+            // Validation of Input
+            if (score === "" || isNaN(score) || score < 0 || score > 100) {
+                alert("Please enter a valid score between 0 and 100!");
+                return;
+            }
+
+            let grade;
+            if (score >= 80) grade = "A";
+            else if (score >= 70) grade = "B";
+            else if (score >= 60) grade = "C";
+            else if (score >= 50) grade = "D";
+            else grade = "F";
+
+            document.getElementById("result").innerText = 
+                `Your Grade is: ${grade}`;
+        }
+    </script>
+</body>
+</html>

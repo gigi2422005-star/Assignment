@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distance to Kasem Bundit University</title>
+</head>
+<body>
+    <h2>Distance to Kasem Bundit University</h2>
+    <button onclick="getLocation()">Where am I?</button>
+    <p id="result"></p>
+
+    <br>
+    <button onclick="history.back()">Back</button>
+
+    <script>
+        // Kasem Bundit University (Hua Mak Campus) coordinates
+        const uniLat = 13.7532;  
+        const uniLon = 100.6267; 
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showDistance, showError);
+            } else {
+                document.getElementById("result").innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showDistance(position) {
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+
+            const distance = haversine(userLat, userLon, uniLat, uniLon);
+            document.getElementById("result").innerHTML =
+                `You're ${distance.toFixed(2)} km away from the Kasem Bundit University.`;
+        }
+
+        function haversine(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a =
+                Math.sin(dLat / 2) ** 2 +
+                Math.cos(lat1 * Math.PI / 180) *
+                Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) ** 2;
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("result").innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("result").innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("result").innerHTML = "The request to get user location timed out.";
+                    break;
+                default:
+                    document.getElementById("result").innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
